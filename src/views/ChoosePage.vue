@@ -7,10 +7,11 @@
       <h1>ยินดีต้อนรับ</h1>
     </div>
     <div class="btn">
-     <!-- <v-row style="margin-top:20px" justify="center"> -->
+    
         <div  class="my-16">
           <v-row style="margin-top:20px"  justify="center">
             <v-btn
+              to="/repairselect"
               class="ma-2"
               color="blue"
               x-large
@@ -20,6 +21,7 @@
             </v-btn>
             <div></div>
             <v-btn
+              to="/"
               class="ma-2"
               x-large
               color="blue"
