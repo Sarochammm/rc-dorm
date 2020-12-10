@@ -1,60 +1,50 @@
 <template>
-  <v-card>
-    <v-tabs
-      v-model="tab"
-      background-color="#3F4C91"
-      dark
-    >
-      <v-tab
-        v-for="item in items"
-        :key="item.tab"
-      >
-        {{ item.tab }}
-      </v-tab>
-    </v-tabs>
-
-    <v-tabs-items v-model="tab">
-      <v-tab-item
-        v-for="item in items"
-        :key="item.tab"
-      >
-        <v-card flat>
-          <v-card-text>{{ item.content }}</v-card-text>
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-  </v-card>
+<header>
+  <v-col cols="1" offset="0">
+    <v-img
+      src="../../assets/profileicon.png"
+      contain
+      class="profileiconImg"
+    />
+  </v-col>
+  <v-col cols="4" offset="7" >
+  <v-tabs
+    background-color="#3F4C90"
+    dark
+    rigth
+  >
+    <v-tab>
+      หน้าแรก
+    </v-tab>
+    <v-tab>
+      แจ้งซ่อมครุภัณฑ์
+    </v-tab>
+    <v-tab>
+      ติดตามสถานะ
+    </v-tab>
+    <v-tab>
+      ออกจากระบบ
+    </v-tab>
+  </v-tabs>
+  </v-col>
+</header>
 </template>
 
 <script>
   export default {
-    data () {
-      return {
-        tab: null,
-        items: [
-          { tab: 'One', content: 'Tab 1 Content' },
-          { tab: 'Two', content: 'Tab 2 Content' },
-          { tab: 'Three', content: 'Tab 3 Content' },
-          { tab: 'Four', content: 'Tab 4 Content' },
-          { tab: 'Five', content: 'Tab 5 Content' },
-          { tab: 'Six', content: 'Tab 6 Content' },
-          { tab: 'Seven', content: 'Tab 7 Content' },
-          { tab: 'Eight', content: 'Tab 8 Content' },
-          { tab: 'Nine', content: 'Tab 9 Content' },
-          { tab: 'Ten', content: 'Tab 10 Content' },
-        ],
-      }
-    },
+    
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.main {
+header{
+  background-color: #3F4C90;
+  height: 70px;
   display: flex;
-  justify-content: flex-end;
 }
-.logoImg {
-  width:200px;
+.profileiconImg{
+  width: 60px;
 }
+
 </style>

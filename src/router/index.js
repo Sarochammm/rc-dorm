@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import HomePage from '../views/HomePage.vue'
-
+import Status from '../views/Status.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -19,8 +19,13 @@ const routes = [
   },
   {
     path: '/homepage',
-    name: 'HomePage',
+    name: 'Homepage',
     component: HomePage
+  },
+  {
+    path: '/status',
+    name: 'Status',
+    component: Status
   }
 ]
 

@@ -1,11 +1,10 @@
 <template>
-  <v-container fluid class="main" id="Home">
+  <v-container fluid class="main" id="home">
     <div class="background">
     <v-row>
       <v-col cols="2" offset="10">
         <v-img
           src="../assets/logo.png"
-          contain
         />
       </v-col>
     </v-row>
@@ -58,7 +57,7 @@
 
 <script>
 export default {
-  name: 'login',
+  name: 'Home',
   props: {
     msg: String
   },
@@ -91,10 +90,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main {
+
 }
 div.background {
   background: url('../assets/rc.png') repeat;
   height: 100vh;
+  width: flex;
 }
 
 div.transbox {

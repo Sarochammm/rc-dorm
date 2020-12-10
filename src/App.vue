@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="">
     <Header v-if="true"/>
     <Content/>
     <Footer v-if="true"/>
