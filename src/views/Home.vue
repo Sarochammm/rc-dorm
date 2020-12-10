@@ -18,18 +18,21 @@
             <v-text-field
                 label="ROOM ID"
                 solo
-                :rules="rules"
-                hide-details="auto">
+                :rules="[rules.required]"
+              >
             </v-text-field>
           </v-card>
         </v-row>
         <v-row style="margin-top:30px" justify="center">
           <v-card color="#F2F2F2" class="box">
-            <v-text-field 
-                label="PASSWORD"
+            <v-text-field
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="[rules.required]"
+                :type="show2 ? 'text' : 'password'"
                 solo
-                :rules="rules"
-                hide-details="auto">
+                name="input-10-2" 
+                label="PASSWORD"
+                @click:append="show2 = !show2">
             </v-text-field>
           </v-card>
         </v-row>
@@ -61,16 +64,14 @@ export default {
   props: {
     msg: String
   },
-  data: () => ({
-      rules: [
-        value => !!value || 'Required.',
-        value => (value && value.length >= 3) || 'Min 3 characters',
-      ],
-    }),
   data () {
       return {
         loader: null,
         loading: false,
+        show2: false,
+        password: 'Password',
+        rules: {
+          required: value => !!value || 'Required.',}
       }
     },
     watch: {
@@ -89,9 +90,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.main {
-
-}
 div.background {
   background: url('../assets/rc.png') repeat;
   height: 100vh;
