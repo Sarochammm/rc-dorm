@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import HomePage from '../views/HomePage.vue'
 import ChoosePage from '../views/ChoosePage.vue'
-import RepairSelect from '../views/RepairSelect.vue'
+import Selectitem from '../views/Selectitem.vue'
 
 Vue.use(VueRouter)
 
@@ -30,9 +30,9 @@ const routes = [
     component: ChoosePage
   },
   {
-    path: '/repairselect',
-    name: 'RepairSelect',
-    component: RepairSelect
+    path: '/selectitem',
+    name: 'Selectitem',
+    component: Selectitem
   }
 ]
 
