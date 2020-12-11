@@ -63,12 +63,6 @@ export default {
 .main{
   /* หน้าหลัก */
 
-
-position: relative;
-width: 1920px;
-height: 1310px;
-
-background: #FFFFFF;
 }
 .ma-2{
   height: 120px;
