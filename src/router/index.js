@@ -3,8 +3,11 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import HomePage from '../views/HomePage.vue'
+<<<<<<< HEAD
 import ChoosePage from '../views/ChoosePage.vue'
-import RepairSelect from '../views/RepairSelect.vue'
+=======
+import Repairform from '../views/Repairform.vue'
+>>>>>>> dad9486c9816d2020954637e916a9d8de8a27ea9
 
 Vue.use(VueRouter)
 
@@ -25,14 +28,17 @@ const routes = [
     component: HomePage
   },
   {
+<<<<<<< HEAD
     path: '/choosepage',
     name: 'ChoosePage',
     component: ChoosePage
   },
   {
-    path: '/repairselect',
-    name: 'RepairSelect',
-    component: RepairSelect
+=======
+    path: '/repairform',
+    name: 'Repairform',
+    component: Repairform
+>>>>>>> dad9486c9816d2020954637e916a9d8de8a27ea9
   }
 ]
 
