@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Status from '../views/Status.vue'
 import Repairform from '../views/Repairform.vue'
+import ChoosePage from '../views/ChoosePage.vue'
+import RepairSelect from '../views/RepairSelect.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,16 @@ const routes = [
     path: '/repairform',
     name: 'Repairform',
     component: Repairform
+  },
+  {
+    path: '/choosepage',
+    name: 'ChoosePage',
+    component: ChoosePage
+  },
+  {
+    path: '/repairselect',
+    name: 'RepairSelect',
+    component: RepairSelect
   }
 ]
 
