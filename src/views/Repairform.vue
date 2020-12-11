@@ -20,7 +20,14 @@
       {{count}} 
       </v-img>
       </div> 
-    <p align="right" class="headText">จำนวนครุภัณฑ์ทั้งหมด : </p>    
+    <v-row style="margin-top:5px" justify="center">
+      <v-col col = "1" align="left">
+          <br><p>วันที่แจ้งซ่อม: {{ new Date() }}</p> 
+          </v-col>
+          <v-col col = "1" align="right" >
+            <br><p> จำนวนครุภัณฑ์ทั้งหมด :</p>
+          </v-col>
+    </v-row> 
     <v-container>
       <p align="left">เบอร์โทรติดต่อผู้แจ้งซ่อม</p>
       <v-row style="margin-top:5px" justify="left">
@@ -123,6 +130,9 @@ export default {
         v => (v && v.length >= 10) || 'Name must be more than 10 characters',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
+    //  date: new Date().format('DD-MM-YYYY')
+      // date: new Date().toISOString().substr(0, 10),
+      
     }),
   data: vm => ({
       date: new Date().toISOString().substr(0, 10),
