@@ -204,13 +204,27 @@
         </v-btn>
     </div> -->
     
+<footer>
+    <v-col cols="1" offset="10">
+      <v-btn
+      depressed
+      color="primary"
+      width = 110
 
+      >
+        ยืนยัน
+      </v-btn>
+      </v-col>
+</footer>
 </v-container>
+
     
 </template>
 
 <script>
+import footer from '../components/core/footer.vue'
 export default {
+  components: { footer },
     name:"selectpage",
     data() {
         return {

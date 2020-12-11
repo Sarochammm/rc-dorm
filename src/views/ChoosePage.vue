@@ -26,6 +26,7 @@
               color="blue"
               x-large
               dark
+              to="/repairselect"
             >
               แจ้งซ่อมครุภัณฑ์
             </v-btn>
@@ -35,6 +36,7 @@
               x-large
               color="blue"
               dark
+              to="/status"
             >
               ติดตามสถานะ
             </v-btn>
@@ -49,7 +51,7 @@
 
 <script>
 export default {
-  
+
 }
 </script>
 
