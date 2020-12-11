@@ -57,7 +57,7 @@ position: relative;
 width: 1920px;
 height: 1310px;
 
-background: #FFFFFF;
+background: #FFFFFF;                                                                                                                                
 }
 .ma-2{
   height: 120px;
