@@ -45,7 +45,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Athiti:wght@300&display=swap');
 .headText{
-  font-size: 25px;
+  font-size: 26px;
   font-family: 'Athiti', sans-serif;
   text-align: center;
 }

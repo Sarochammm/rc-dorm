@@ -215,7 +215,7 @@ export default {
     data() {
         return {
             count:0,
-            disabled : false
+            
         }
     },
     methods: {
