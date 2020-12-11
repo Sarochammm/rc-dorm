@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import HomePage from '../views/HomePage.vue'
 import Status from '../views/Status.vue'
+import Repairform from '../views/Repairform.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -18,14 +19,14 @@ const routes = [
     component: About
   },
   {
-    path: '/homepage',
-    name: 'Homepage',
-    component: HomePage
-  },
-  {
     path: '/status',
     name: 'Status',
     component: Status
+  },
+  {
+    path: '/repairform',
+    name: 'Repairform',
+    component: Repairform
   }
 ]
 

@@ -11,7 +11,7 @@
     <v-row style="margin-top:20px" justify="center">
       <v-card color="#828282" class="transbox">
         <v-row style="margin-top:20px" justify="center" max-height="300">
-          <p class="headText">Welcome</p>
+          <p class="headText">Welcome</p> 
         </v-row>
         <v-row style="margin-top:10px" justify="center">
           <v-card color="#F2F2F2" class="box">
