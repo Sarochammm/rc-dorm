@@ -62,7 +62,7 @@
 export default {
   name: 'Home',
   props: {
-    msg: String
+    msg: String,
   },
   data () {
       return {
@@ -80,10 +80,10 @@ export default {
         this[l] = !this[l]
         setTimeout(() => (this[l] = false), 3000)
 
-        this.loader = null
-      },
+      this.loader = null;
     },
-}
+  },
+};
 </script>
 
 
@@ -91,7 +91,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 div.background {
-  background: url('../assets/rc.png') repeat;
+  background: url("../assets/rc.png") repeat;
   height: 100vh;
   width: flex;
 }
@@ -111,17 +111,17 @@ div.transbox p {
 }
 
 .logoImg {
-  width:200px;
+  width: 200px;
 }
 
-.box{
+.box {
   width: 400px;
   height: 45px;
 }
 .custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
-  }
+  animation: loader 1s infinite;
+  display: flex;
+}
 @-moz-keyframes loader {
   from {
     transform: rotate(0);
@@ -130,7 +130,7 @@ div.transbox p {
     transform: rotate(360deg);
   }
 }
-.headText{
+.headText {
   font-size: 50px;
   font-family: "PNB";
 }

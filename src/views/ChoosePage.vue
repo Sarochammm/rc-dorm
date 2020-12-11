@@ -33,8 +33,8 @@
             <div></div>
             <v-btn
               class="ma-2"
-              x-large
               color="blue"
+              x-large
               dark
               to="/status"
             >
