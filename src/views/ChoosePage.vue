@@ -1,10 +1,22 @@
 <template>
 <v-container fluid class="main" id="ChoosePage">
-    <div class="headText">
-      <v-img 
-      src=""
-      ></v-img>
-      <h1>ยินดีต้อนรับ</h1>
+    <div class="headText" >
+      <v-col cols="2" offset="5">
+          <v-row align="center" justify="center">
+            <v-img
+              max-height="250"
+              max-width="225"
+              contain
+              src="../assets/Ellipse 14.png"
+            >
+            <br><br>
+            <h1>ยินดีต้อนรับ</h1>
+            </v-img>
+            <h2>ผู้เช่าห้อง {{ RoomNumber }}</h2>
+        
+        </v-row>
+        
+      </v-col>
     </div>
     <div class="btn">
     
@@ -23,8 +35,8 @@
             <v-btn
               to="/"
               class="ma-2"
-              x-large
               color="blue"
+              x-large
               dark
             >
               ติดตามสถานะ
@@ -45,7 +57,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Athiti:wght@300&display=swap');
 .headText{
-  font-size: 26px;
+  font-size: 25px;
   font-family: 'Athiti', sans-serif;
   text-align: center;
 }
