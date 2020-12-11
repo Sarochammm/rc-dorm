@@ -1,13 +1,17 @@
 <template>
 <header>
-  <v-col cols="1" offset="0">
+  <v-col cols="2" offset="0" style="margin-left:20px">
+    <v-row>
     <v-img
       src="../../assets/profileicon.png"
-      contain
       class="profileiconImg"
-    />
+      max-height= "65"
+      max-width= "65"
+    /> <p style="margin-top:10px; color: white; font-size: 20px;" >ผู้เช่าห้อง</p>
+    </v-row>
   </v-col>
-  <v-col cols="4" offset="7" >
+
+  <v-col cols="4" offset="6" >
   <v-tabs
     background-color="#3F4C90"
     dark
@@ -44,7 +48,7 @@ header{
   display: flex;
 }
 .profileiconImg{
-  width: 60px;
-}
 
+ display: flex;
+}
 </style>
