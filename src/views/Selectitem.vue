@@ -156,6 +156,12 @@ export default {
       var bodyFormData = new FormData();
       bodyFormData.append('item_id',this.DataItemList.item_id);
 
+      axios({
+        method: 'post',
+        url
+
+      })
+
       axios ({
 
       })

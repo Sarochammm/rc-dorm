@@ -6,6 +6,9 @@ import HomePage from '../views/HomePage.vue'
 import ChoosePage from '../views/ChoosePage.vue'
 import Selectitem from '../views/Selectitem.vue'
 
+import Repairform from '../views/Repairform.vue'
+
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,6 +28,7 @@ const routes = [
     component: HomePage
   },
   {
+
     path: '/choosepage',
     name: 'ChoosePage',
     component: ChoosePage
@@ -33,6 +37,12 @@ const routes = [
     path: '/selectitem',
     name: 'Selectitem',
     component: Selectitem
+  },
+  {
+    path: '/repairform',
+    name: 'Repairform',
+    component: Repairform
+
   }
 ]
 

@@ -1,19 +1,23 @@
 <template>
   <v-container fluid class="main" id="Home">
     <div class="background">
-      <v-row>
-        <v-col cols="2" offset="10">
-          <v-img src="../assets/logo.png" contain />
-        </v-col>
-      </v-row>
-      <v-row style="margin-top: 20px" justify="center">
-        <v-card color="#828282" class="transbox">
-          <v-row style="margin-top: 20px" justify="center" max-height="300">
-            <p class="headText">Welcome</p>
-          </v-row>
-          <v-row style="margin-top: 10px" justify="center">
-            <v-card color="#F2F2F2" class="box">
-              <v-text-field
+
+    <v-row>
+      <v-col cols="2" offset="10">
+        <v-img
+          src="../assets/logo.png"
+          contain
+        />
+      </v-col>
+    </v-row>
+    <v-row style="margin-top:20px" justify="center">
+      <v-card color="#828282" class="transbox">
+        <v-row style="margin-top:20px" justify="center" max-height="300">
+          <p class="headText">Welcome</p> 
+        </v-row>
+        <v-row style="margin-top:10px" justify="center">
+          <v-card color="#F2F2F2" class="box">
+            <v-text-field
                 label="ROOM ID"
                 solo
                 :rules="rules"
