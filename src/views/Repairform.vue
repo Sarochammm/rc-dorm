@@ -154,7 +154,16 @@
       ></v-textarea>
       </v-container>
       </v-row>
-      <v-row justify="center" style="margin-top: 30px;">
+    <v-row justify="center" style="margin-top: 30px;">
+    <v-btn
+    x-large
+    depressed
+    color="primary"
+    width = 110
+    to="/Selectitem"
+    >ยกเลิก
+    </v-btn></v-row>
+    <v-row justify="center" style="margin-top: 30px;">
     <v-btn
     x-large
     depressed
@@ -181,42 +190,12 @@ export default {
         v => (v && v.length >= 10) || 'Name must be more than 10 characters',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
+      checkbox: null,
 
       date: new Date().toISOString().substr(0, 10),
       menu: false,
     
-  // data: vm => ({
-  //     date: new Date().toISOString().substr(0, 10),
-  //     dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
-  //     menu2: false,
-  //   }),
 
-    computed: {
-      computedDateFormatted () {
-        return this.formatDate(this.date)
-      },
-    },
-
-    watch: {
-      date (val) {
-        this.dateFormatted = this.formatDate(this.date)
-      },
-    },
-
-    methods: {
-      formatDate (date) {
-        if (!date) return null
-
-        const [year, day, month] = date.split('-')
-        return `${month}/${day}/${year}`
-      },
-      parseDate (date) {
-        if (!date) return null
-
-        const [year, day, month] = date.split('/')
-        return `${year}-${day.padStart(2, '0')}-${month.padStart(2, '0')}`
-      },
-    },
 
     DataReceipt : {
       repairDate : null,

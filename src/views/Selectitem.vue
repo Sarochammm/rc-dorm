@@ -65,7 +65,7 @@
     depressed
     color="primary"
     width = 110
-    to="/repairform
+    to="/repairform"
     @click="onSubmit()"
     >
       ยืนยัน
@@ -155,10 +155,9 @@ export default {
      };
      this.addCourse(payload);
      this.initForm();
-   }
+   },
  }
-  },
-};
+  }
 </script>
 
 <style >
