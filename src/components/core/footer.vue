@@ -1,41 +1,40 @@
 <template>
   <v-footer 
     color="#EEF3FB"
-    padless>
-    <v-row
-      justify="center"
-      no-gutters
-    >
+    class="foot">
+      <v-col cols="1" offset="0">
       <v-btn
-        v-for="link in links"
-        :key="link"
-        text
-        class="my-2"
+      depressed
+      color="primary"
+      width = 114
       >
-        {{ link }}
+        ย้อนกลับ
       </v-btn>
-    </v-row>
+      </v-col>
+
+      <v-col cols="1" offset="10">
+      <v-btn
+      depressed
+      color="primary"
+      width = 110
+
+      >
+        ยืนยัน
+      </v-btn>
+      </v-col>
   </v-footer>
 </template>
 
 
 <script>
   export default {
-    data: () => ({
-      links: [
-        'ย้อนกลับ',
-        'ยืนยัน'
-      ],
-    }),
+    name: "Footer",
   }
+    
 </script>
 
 <style scoped>
-.main {
+.foot{
   display: flex;
-  justify-content: flex-end;
-}
-.logoImg {
-  width:200px;
 }
 </style>

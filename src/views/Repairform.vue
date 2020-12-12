@@ -15,7 +15,7 @@
       contain
       max-height="100"
       max-width="50"
-      src="../assets/shopping-basket 1.png"
+      src="../assets/shopbasket.png"
       >
       {{count}} 
       </v-img>
@@ -154,6 +154,15 @@
       ></v-textarea>
       </v-container>
       </v-row>
+      <v-row justify="center" style="margin-top: 30px;">
+    <v-btn
+    x-large
+    depressed
+    color="primary"
+    width = 110
+    >
+      ยืนยัน
+    </v-btn></v-row>
     </v-container>
     </v-card>
   </v-row>
@@ -250,7 +259,7 @@ export default {
 div.transbox {
   margin: 10px;
   width: 830px;
-  height: 950px;
+  height: 900px;
   background-color: #EEF3FB;
   opacity: 0.8;
 }
