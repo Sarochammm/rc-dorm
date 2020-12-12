@@ -174,21 +174,24 @@ export default {
 
         console.log("Let it go")
         if(this.$store.getters.getItems.length > 1){
-          for (item in this.$store.getters.getItems.length){
+          var i
+          for (i=0;i<this.$store.getters.getItems.length;i++){
             var bodyFormData = new FormData();
             bodyFormData.append("repair_id", "");
-            bodyFormData.append("item_id", item);
-            await this.axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
-            .then(res =>{
+            bodyFormData.append("item_id", this.$store.getters.getItems[i]);
+            this.axios
+              .post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
+              .then(res =>{
               console.log(res)
-          })  
+            })  
           }
         }
         else{
           var bodyFormData = new FormData();
           bodyFormData.append("repair_id", "");
-          bodyFormData.append("item_id", this.$store.getters.getItems);
-          await this.axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
+          bodyFormData.append("item_id", this.$store.getters.getItems[0]);
+          console.log(this.$store.getters.getItems[0])
+          this.axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
           .then(res =>{
             console.log(res)
         })
