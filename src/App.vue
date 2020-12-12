@@ -1,15 +1,16 @@
 <template>
-  <v-app>
-    <Header v-if="true"/>
+  <v-app class="">
+    <Header v-if="$store.getters.getIsLogin"/>
     <Content/>
-    <Footer v-if="true"/>
+    <Footer v-if="$store.getters.getIsLogin"/>
   </v-app>
 </template>
 
 <script>
 import Content from './components/core/content';
 import Header from "./components/core/header";
-import Footer from "./components/core/footer";
+import Load from "./components/load";
+// import Footer from "./components/core/footer";
 
 export default {
   name: 'App',
@@ -17,7 +18,8 @@ export default {
   components: {
     Content,
     Header,
-    Footer
+    Load
+    // Footer
   },
 
   data: () => ({

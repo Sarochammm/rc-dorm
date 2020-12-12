@@ -1,36 +1,40 @@
 <template>
-  <v-container fluid class="main" id="Home">
+  <v-container fluid class="main" id="home">
     <div class="background">
     <v-row>
       <v-col cols="2" offset="10">
         <v-img
           src="../assets/logo.png"
-          contain
         />
       </v-col>
     </v-row>
     <v-row style="margin-top:20px" justify="center">
       <v-card color="#828282" class="transbox">
         <v-row style="margin-top:20px" justify="center" max-height="300">
-          <p class="headText">Welcome</p> 
+          <p class="headText">Welcome</p>
         </v-row>
         <v-row style="margin-top:10px" justify="center">
           <v-card color="#F2F2F2" class="box">
             <v-text-field
                 label="ROOM ID"
+                v-model="user.userid"
                 solo
-                :rules="rules"
-                hide-details="auto">
+                :rules="[rules.required]"
+              >
             </v-text-field>
           </v-card>
         </v-row>
         <v-row style="margin-top:30px" justify="center">
           <v-card color="#F2F2F2" class="box">
-            <v-text-field 
-                label="PASSWORD"
+            <v-text-field
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="[rules.required]"
+                :type="show2 ? 'text' : 'password'"
+                v-model="user.password"
                 solo
-                :rules="rules"
-                hide-details="auto">
+                name="input-10-2" 
+                label="PASSWORD"
+                @click:append="show2 = !show2">
             </v-text-field>
           </v-card>
         </v-row>
@@ -39,10 +43,8 @@
             <v-btn 
             justify="center"
             class="ma-2"
-            :loading="loading"
-            :disabled="loading"
             color="primary"
-            @click="loader = 'loading'"
+            @click="onClickLogin"
             width = 250
             >
               Login
@@ -51,27 +53,38 @@
         </v-row>
       </v-card>
     </v-row>
-
+    <v-overlay :value="$store.getters.getLoadingState">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
     </div>
   </v-container>
 </template>
 
 <script>
 export default {
-  name: 'login',
+  name: 'Home',
   props: {
-    msg: String
+    msg: String,
   },
-  data: () => ({
-      rules: [
-        value => !!value || 'Required.',
-        value => (value && value.length >= 3) || 'Min 3 characters',
-      ],
-    }),
   data () {
       return {
         loader: null,
-        loading: false,
+        show2: false,
+        password: 'Password',
+        user: {
+          userid: "",
+          password: ""
+        },
+        rules: {
+          required: value => !!value || 'Required.',}
+      }
+    },
+    methods: {
+      onClickLogin() {
+        this.$store.dispatch({type:"login", userid:this.user.userid, password:this.user.password})
       }
     },
     watch: {
@@ -80,21 +93,20 @@ export default {
         this[l] = !this[l]
         setTimeout(() => (this[l] = false), 3000)
 
-        this.loader = null
-      },
+      this.loader = null;
     },
-}
+  },
+};
 </script>
 
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.main {
-}
 div.background {
-  background: url('../assets/rc.png') repeat;
+  background: url("../assets/rc.png") repeat;
   height: 100vh;
+  width: flex;
 }
 
 div.transbox {
@@ -112,17 +124,17 @@ div.transbox p {
 }
 
 .logoImg {
-  width:200px;
+  width: 200px;
 }
 
-.box{
+.box {
   width: 400px;
   height: 45px;
 }
 .custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
-  }
+  animation: loader 1s infinite;
+  display: flex;
+}
 @-moz-keyframes loader {
   from {
     transform: rotate(0);
@@ -131,7 +143,7 @@ div.transbox p {
     transform: rotate(360deg);
   }
 }
-.headText{
+.headText {
   font-size: 50px;
   font-family: "PNB";
 }

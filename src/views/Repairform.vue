@@ -15,12 +15,19 @@
       contain
       max-height="100"
       max-width="50"
-      src="../assets/shopping-basket 1.png"
+      src="../assets/shopbasket.png"
       >
       {{count}} 
       </v-img>
       </div> 
-    <p align="right" class="headText">จำนวนครุภัณฑ์ทั้งหมด : </p>    
+    <v-row style="margin-top:5px" justify="center">
+      <v-col col = "1" align="left">
+          <br><p>วันที่แจ้งซ่อม: {{ new Date() }}</p> 
+          </v-col>
+          <v-col col = "1" align="right" >
+            <br><p> จำนวนครุภัณฑ์ทั้งหมด :</p>
+          </v-col>
+    </v-row> 
     <v-container>
       <p align="left">เบอร์โทรติดต่อผู้แจ้งซ่อม</p>
       <v-row style="margin-top:5px" justify="left">
@@ -86,6 +93,7 @@
                 ></v-select>
         </v-col>
       </v-row>
+      <v-row style="margin-top:50px">
       <v-container fluid>
       <v-textarea
         name="input-7-1"
@@ -95,21 +103,21 @@
         auto-grow
       ></v-textarea>
       </v-container>
-      <v-row style="margin-top:20px">
-          <v-col col = "1" align="left">
-            <br><p>อัพเดตวิดีโอเพิ่มเติม</p>
-          </v-col>
       </v-row>
-      <v-file-input
-    show-size
-    label="File"
-  ></v-file-input>
-
+      <v-row justify="center" style="margin-top: 30px;">
+    <v-btn
+    x-large
+    depressed
+    color="primary"
+    width = 110
+    to="/status"
+    >
+      ยืนยัน
+    </v-btn></v-row>
     </v-container>
     </v-card>
   </v-row>
   </v-form>
-  
   </div>
 </template>
 
@@ -123,6 +131,7 @@ export default {
         v => (v && v.length >= 10) || 'Name must be more than 10 characters',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
+      
     }),
   data: vm => ({
       date: new Date().toISOString().substr(0, 10),
@@ -156,6 +165,39 @@ export default {
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       },
     },
+
+    DataReceipt : {
+      repairDate : null,
+      phone : null,
+      informDate : null,
+      timeRepair : null,
+      acceptDate : null,
+      discription : null,
+    },
+
+    createReceiptlist(event) {
+      event.preventDefault()
+      var bodyFormData = new FormData() ;
+      bodyFormData.append('repair_date',this.DataReceipt.repairDate); 
+      bodyFormData.append('phone',this.DataReceipt.phone);
+      bodyFormData.append('inform_date',this.DataReceipt.informDate);
+      bodyFormData.append('time_repair',this.DataReceipt.timeRepair);
+      bodyFormData.append('accept_date',this.DataReceipt.acceptDate);
+      bodyFormData.append('Description',this.DataReceipt.discription);
+
+      axios ({
+        method: 'post',
+        url: 'https://rc-drom-backend.herokuapp.com/createReceiptlist',
+        data: bodyFormData,
+        headers: {'Content-Type':'multipart/form-data'},
+      })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (response){
+          console.log(response)
+        })
+    }
     
 }
 </script>
@@ -166,7 +208,7 @@ export default {
 div.transbox {
   margin: 10px;
   width: 830px;
-  height: 950px;
+  height: 900px;
   background-color: #EEF3FB;
   opacity: 0.8;
 }
