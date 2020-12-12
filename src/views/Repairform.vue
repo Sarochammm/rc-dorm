@@ -55,7 +55,57 @@
           </v-col>
       </v-row>
       <v-row align="center">
-        <v-col col="1" sm="6">
+        <v-col
+      cols="1"
+      sm="6"
+      
+    >
+      <v-menu
+        ref="menu"
+        v-model="menu"
+        :close-on-content-click="false"
+        :return-value.sync="date"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="date"
+            label="Date (read only text field)"
+            hint="YYYY-MM-DD format"
+            persistent-hint
+            append-icon="mdi-calendar"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          v-model="date"
+          no-title
+          scrollable
+        >
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            color="primary"
+            @click="menu = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            text
+            color="primary"
+            @click="$refs.menu.save(date)"
+          >
+            OK
+          </v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-col>
+   
+        <!-- <v-col col="1" sm="6">
           <v-menu 
             v-model="menu2"
             :close-on-content-click="false"
@@ -82,7 +132,7 @@
               @input="menu2 = false"
             ></v-date-picker>
             </v-menu>
-            </v-col>
+            </v-col> -->
       
         <v-col col="1" sm="6">
           <v-select
@@ -121,13 +171,15 @@ export default {
         v => (v && v.length >= 10) || 'Name must be more than 10 characters',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
-      
-    }),
-  data: vm => ({
+
       date: new Date().toISOString().substr(0, 10),
-      dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
-      menu2: false,
-    }),
+      menu: false,
+    
+  // data: vm => ({
+  //     date: new Date().toISOString().substr(0, 10),
+  //     dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+  //     menu2: false,
+  //   }),
 
     computed: {
       computedDateFormatted () {
@@ -145,14 +197,14 @@ export default {
       formatDate (date) {
         if (!date) return null
 
-        const [year, month, day] = date.split('-')
+        const [year, day, month] = date.split('-')
         return `${month}/${day}/${year}`
       },
       parseDate (date) {
         if (!date) return null
 
-        const [month, day, year] = date.split('/')
-        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        const [year, day, month] = date.split('/')
+        return `${year}-${day.padStart(2, '0')}-${month.padStart(2, '0')}`
       },
     },
 
@@ -188,7 +240,7 @@ export default {
           console.log(response)
         })
     }
-    
+  }),  
 }
 </script>
 
