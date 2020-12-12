@@ -17,7 +17,6 @@
       max-width="50"
       src="../assets/shopbasket.png"
       >
-      {{count}} 
       </v-img>
       </div> 
     <v-row style="margin-top:5px" justify="center">
@@ -38,11 +37,12 @@
           md="100"
         >
           <v-text-field
-            v-model="phonenum"
+            
             :counter="10"
             :rules="phonenumRules"
             label="Phone Number"
             required
+            v-model="DataReceipt.phone"
           ></v-text-field>
         </v-col>
       </v-card>
@@ -57,40 +57,42 @@
       </v-row>
       <v-row align="center">
         <v-col col="1" sm="6">
-          <v-menu 
-            v-model="menu2"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            offset-y
-            max-width="290px"
-            min-width="290px"
-          >
+          <v-menu
+          ref="menu1"
+          v-model="menu1"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="290px"
+        >
           <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="computedDateFormatted"
-                label="Date (read only text field)"
-                hint="MM/DD/YYYY format"
-                persistent-hint
-                append-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="date"
-              no-title
-              @input="menu2 = false"
-            ></v-date-picker>
-            </v-menu>
+            <v-text-field
+              v-model="dateFormatted"
+              label="Date"
+              hint="MM/DD/YYYY format"
+              persistent-hint
+              prepend-icon="mdi-calendar"
+              v-bind="attrs"
+              @blur="date = parseDate(dateFormatted)"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="DataReceipt.date"
+            no-title
+            @input="menu1 = false"            
+          ></v-date-picker>
+        </v-menu>
             </v-col>
       
         <v-col col="1" sm="6">
           <v-select
-                  :items="['08:00-08:30', '08:30-09:00', '09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00',
-                          '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00']"
+                  :items="['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+                          '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30']"
                   label="Time"
                   required
+                  v-model="DataReceipt.timeRepair"
                 ></v-select>
         </v-col>
       </v-row>
@@ -102,6 +104,7 @@
         filled
         label="แจ้งรายละเอียดความเสียหาย"
         auto-grow
+        v-model="DataReceipt.discription"
       ></v-textarea>
       </v-container>
       </v-row>
@@ -124,24 +127,28 @@
 </template>
 
 <script>
-
-
-
+import axios from"axios"
 export default {
-  data: () => ({
+  name: "Repairform",
+  data: vm => ({
+      date: new Date().toISOString().substr(0, 10),
+      dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+      menu1: false,
+      menu2: false,
+      DataReceipt : {
+        user_id : null,
+        phone : null,
+        date : null,
+        timeRepair : null,
+        discription : null,
+      },
       valid: true,
-      phonenum: '',
+      // phone: '',
       phonenumRules: [
         v => !!v || 'Phone Number is required',
         v => (v && v.length >= 10) || 'Name must be more than 10 characters',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
-      
-    }),
-  data: vm => ({
-      date: new Date().toISOString().substr(0, 10),
-      dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
-      menu2: false,
     }),
 
     computed: {
@@ -155,9 +162,11 @@ export default {
         this.dateFormatted = this.formatDate(this.date)
       },
     },
+    mounted(){
+    },
 
     methods: {
-      formatDate (date) {
+     formatDate (date) {
         if (!date) return null
 
         const [year, month, day] = date.split('-')
@@ -169,70 +178,61 @@ export default {
         const [month, day, year] = date.split('/')
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       },
-
       setItems(){
+        console.log(this.DataReceipt)
+        var bodyFormDataDetail = new FormData() ;
+        bodyFormDataDetail.append('user_id',localStorage.getItem('userid'));
+        bodyFormDataDetail.append('phone',this.DataReceipt.phone);
+        bodyFormDataDetail.append('repair_date',this.DataReceipt.date); 
+        bodyFormDataDetail.append('time_repair',this.DataReceipt.timeRepair);
+        bodyFormDataDetail.append('description',this.DataReceipt.discription);
+
+        axios ({
+          method: 'post',
+          url: 'https://rc-drom-backend.herokuapp.com/createRepairlist',
+          data: bodyFormDataDetail,
+          headers: {'Content-Type':'multipart/form-data'},
+        })
+          .then(function (response) {
+            console.log(response)
+          })
+          .catch(function (response){
+            console.log(response)
+          })
+        
+            
 
         console.log("Let it go")
         if(this.$store.getters.getItems.length > 1){
           var i
+          // userID = localStorage.getItem("userid")
           for (i=0;i<this.$store.getters.getItems.length;i++){
             var bodyFormData = new FormData();
-            bodyFormData.append("repair_id", "");
             bodyFormData.append("item_id", this.$store.getters.getItems[i]);
             this.axios
               .post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
               .then(res =>{
-              console.log(res)
+              console.log("Here some thing",res)
             })  
           }
         }
         else{
           var bodyFormData = new FormData();
-          bodyFormData.append("repair_id", "");
+          // bodyFormData.append("repair_id", "");
           bodyFormData.append("item_id", this.$store.getters.getItems[0]);
-          console.log(this.$store.getters.getItems[0])
+          console.log(this.$store.getters.getItems)
           this.axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
           .then(res =>{
             console.log(res)
         })
         }
-        
+        setTimeout(()=>{
+          // router.push('/Status')
+          console.log("END")
+        },1500)
         
       }
     },
-
-    DataReceipt : {
-      repairDate : null,
-      phone : null,
-      informDate : null,
-      timeRepair : null,
-      acceptDate : null,
-      discription : null,
-    },
-
-    createReceiptlist(event) {
-      event.preventDefault()
-      var bodyFormData = new FormData() ;
-      bodyFormData.append('repair_date',this.DataReceipt.repairDate); 
-      bodyFormData.append('phone',this.DataReceipt.phone);
-      bodyFormData.append('inform_date',this.DataReceipt.informDate);
-      bodyFormData.append('time_repair',this.DataReceipt.timeRepair);
-      bodyFormData.append('accept_date',this.DataReceipt.acceptDate);
-      bodyFormData.append('Description',this.DataReceipt.discription);
-
-      axios ({
-        method: 'post',
-        url: 'https://rc-drom-backend.herokuapp.com/createReceiptlist',
-        data: bodyFormData,
-        headers: {'Content-Type':'multipart/form-data'},
-      })
-        .then(function (response) {
-          console.log(response)
-        })
-        .catch(function (response){
-          console.log(response)
-        })
-    }
     
 }
 </script>

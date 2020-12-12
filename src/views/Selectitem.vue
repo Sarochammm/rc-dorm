@@ -124,10 +124,10 @@ export default {
     async addItem(id,title) {
       this.count = this.count + 1;
       console.log(id);
-      this.touch.push({item_id : id});
+      this.touch.push(id);
       this.Title.push(title);
       console.log(this.touch);
-      this.$store.commit('setItems',this.Title);
+      this.$store.commit('setItems',this.touch);
       id.preventDefault()
 
       // var bodyFormData = new FormData();

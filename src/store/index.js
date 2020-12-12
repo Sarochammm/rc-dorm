@@ -29,6 +29,9 @@ export default new Vuex.Store({
     getItems (state) {
       return state.touch
     },
+    // getItem (state) {
+    //   return state.touch
+    // },
    },
   mutations: {
     setLoginState(state, value){
