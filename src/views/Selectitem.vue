@@ -51,7 +51,7 @@
             <v-btn
               x-large
               color="success"
-              @click="logItem(item.item_id,item.title)"
+              @click="addItem(item.item_id,item.title)"
               >{{ item.title }}</v-btn
             >            
           </v-card-action>
@@ -65,7 +65,8 @@
     depressed
     color="primary"
     width = 110
-    to="/repairform"
+    to="/repairform
+    @click="onSubmit()"
     >
       ยืนยัน
     </v-btn></v-col></div>
@@ -75,6 +76,7 @@
 
 <script>
 export default {
+  name : "SelectItem",
   data: () => ({
     preset: [
       {
@@ -113,23 +115,48 @@ export default {
     dialog: false,
     count: 0,
     count1001: 0,
-  }),
-  methods: {
     DataItemList : {
       item_id : null
     },
+    }),
+  methods: {
     
-    logItem(id,title) {
+    
+    async addItem(id,title) {
       this.count = this.count + 1;
       console.log(id);
-      this.touch.push(id);
+      this.touch.push({item_id : id});
       this.Title.push(title);
       console.log(this.touch);
       id.preventDefault()
       var bodyFormData = new FormData();
       bodyFormData.append('item_id',this.DataItemList.item_id);
-    
+  
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:5000/createRepairlistitem',
+        data: DataItemList,
+        headers: { "Content-Type": "application/json" }, 
+      })
+        .then(function(response){
+          console.log(response)
+    })
+
     },
+    onSubmit(e) {
+     e.preventDefault();
+     this.$refs.addCourseModal.hide();
+     let paperback = false;
+     if (this.addCourseForm.paperback[0]) paperback = true;
+     const payload = {
+       title: this.addCourseForm.title,
+       author: this.addCourseForm.author,
+       paperback
+     };
+     this.addCourse(payload);
+     this.initForm();
+   }
+ }
   },
 };
 </script>
