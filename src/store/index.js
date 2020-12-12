@@ -10,7 +10,8 @@ export default new Vuex.Store({
     isLogin: false,
     loadingState: false,
     dialogState: false,
-    dialogMsg: ""
+    dialogMsg: "",
+    touch: []
   },
   getters: {
     getIsLogin (state) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     getDialogMsg (state) {
       return state.dialogMsg
+    },
+    getItems (state) {
+      return state.touch
     },
    },
   mutations: {
@@ -39,6 +43,10 @@ export default new Vuex.Store({
     setDialogMsg(state, value){
       state.dialogMsg = value
     },
+    setItems(state, value){
+      console.log("Test" + value)
+      state.touch = value
+    }
   },
   actions: {
     async login({commit},{userid,password}) {

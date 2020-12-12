@@ -11,7 +11,7 @@
       <hr />
     </div>
     <div class="cart" align="right">
-        <h3>{{ Title }}</h3>
+        <h3>{{ this.$store.getters.getItems }}</h3>
         <v-img
           align="right"
           contain
@@ -65,8 +65,7 @@
     depressed
     color="primary"
     width = 110
-    to="/repairform
-    @click="onSubmit()"
+    to="/repairform"
     >
       ยืนยัน
     </v-btn></v-col></div>
@@ -128,35 +127,27 @@ export default {
       this.touch.push({item_id : id});
       this.Title.push(title);
       console.log(this.touch);
+      this.$store.commit('setItems',this.Title);
       id.preventDefault()
-      var bodyFormData = new FormData();
-      bodyFormData.append('item_id',this.DataItemList.item_id);
-  
-      axios({
-        method: 'post',
-        url: 'http://127.0.0.1:5000/createRepairlistitem',
-        data: DataItemList,
-        headers: { "Content-Type": "application/json" }, 
-      })
-        .then(function(response){
-          console.log(response)
-    })
+
+      // var bodyFormData = new FormData();
+      // bodyFormData.append('item_id',this.DataItemList.item_id);
+  // ยืนยัน setState touch
+    //   axios({
+    //     method: 'post', 
+    //     url: 'http://127.0.0.1:5000/createRepairlistitem',
+    //     data: DataItemList,
+    //     headers: { "Content-Type": "application/json" }, 
+    //   })
+    //     .then(function(response){
+    //       console.log(response)
+    // })
 
     },
-    onSubmit(e) {
-     e.preventDefault();
-     this.$refs.addCourseModal.hide();
-     let paperback = false;
-     if (this.addCourseForm.paperback[0]) paperback = true;
-     const payload = {
-       title: this.addCourseForm.title,
-       author: this.addCourseForm.author,
-       paperback
-     };
-     this.addCourse(payload);
-     this.initForm();
-   }
- }
+
+    // saveData(){
+    //   this.$store.commit('setItems',touch);
+    // }
   },
 };
 </script>

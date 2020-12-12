@@ -25,7 +25,8 @@
           <br><p>วันที่แจ้งซ่อม: {{ new Date() }}</p> 
           </v-col>
           <v-col col = "1" align="right" >
-            <br><p> จำนวนครุภัณฑ์ทั้งหมด :</p>
+            <br><p> จำนวนครุภัณฑ์ทั้งหมด : {{this.$store.getters.getItems.length}} </p>
+            {{this.$store.getters.getItems}}
           </v-col>
     </v-row> 
     <v-container>
@@ -109,11 +110,12 @@
     x-large
     depressed
     color="primary"
-    width = 110
-    to="/status"
+    width=110
+    @click="setItems()"
     >
       ยืนยัน
-    </v-btn></v-row>
+    </v-btn>
+    </v-row>
     </v-container>
     </v-card>
   </v-row>
@@ -122,6 +124,9 @@
 </template>
 
 <script>
+
+
+
 export default {
   data: () => ({
       valid: true,
@@ -164,6 +169,33 @@ export default {
         const [month, day, year] = date.split('/')
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       },
+
+      setItems(){
+
+        console.log("Let it go")
+        if(this.$store.getters.getItems.length > 1){
+          for (item in this.$store.getters.getItems.length){
+            var bodyFormData = new FormData();
+            bodyFormData.append("repair_id", "");
+            bodyFormData.append("item_id", item);
+            await this.axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
+            .then(res =>{
+              console.log(res)
+          })  
+          }
+        }
+        else{
+          var bodyFormData = new FormData();
+          bodyFormData.append("repair_id", "");
+          bodyFormData.append("item_id", this.$store.getters.getItems);
+          await this.axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
+          .then(res =>{
+            console.log(res)
+        })
+        }
+        
+        
+      }
     },
 
     DataReceipt : {
