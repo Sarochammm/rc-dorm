@@ -21,10 +21,9 @@ export default {
     Load
     // Footer
   },
-
-  data: () => ({
-    //
-  }),
+  mounted () {
+    this.$store.dispatch({ type: "restoreLogin" });
+  }
 };
 </script>
 
