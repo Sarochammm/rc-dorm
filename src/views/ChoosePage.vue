@@ -26,7 +26,7 @@
               color="blue"
               x-large
               dark
-              to="/repairselect"
+              to="/selectitem"
             >
               แจ้งซ่อมครุภัณฑ์
             </v-btn>
