@@ -17,6 +17,7 @@
           <v-card color="#F2F2F2" class="box">
             <v-text-field
                 label="ROOM ID"
+                v-model="user.userid"
                 solo
                 :rules="[rules.required]"
               >
@@ -29,6 +30,7 @@
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required]"
                 :type="show2 ? 'text' : 'password'"
+                v-model="user.password"
                 solo
                 name="input-10-2" 
                 label="PASSWORD"
@@ -41,10 +43,8 @@
             <v-btn 
             justify="center"
             class="ma-2"
-            :loading="loading"
-            :disabled="loading"
             color="primary"
-            @click="loader = 'loading'"
+            @click="onClickLogin"
             width = 250
             >
               Login
@@ -53,7 +53,41 @@
         </v-row>
       </v-card>
     </v-row>
+    <!-- Dialog -->
+    <v-dialog
+      v-model="$store.getters.getDialogState"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          ALERT
+        </v-card-title>
 
+        <v-card-text>
+       {{ $store.getters.getDialogMsg }}
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="$store.commit('setDialogState', false)"
+          >
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- loading -->
+    <v-overlay :value="$store.getters.getLoadingState">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
     </div>
   </v-container>
 </template>
@@ -67,11 +101,19 @@ export default {
   data () {
       return {
         loader: null,
-        loading: false,
         show2: false,
         password: 'Password',
+        user: {
+          userid: "",
+          password: ""
+        },
         rules: {
           required: value => !!value || 'Required.',}
+      }
+    },
+    methods: {
+      onClickLogin() {
+        this.$store.dispatch({type:"login", userid:this.user.userid, password:this.user.password})
       }
     },
     watch: {

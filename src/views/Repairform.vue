@@ -160,6 +160,7 @@
     depressed
     color="primary"
     width = 110
+    to="/status"
     >
       ยืนยัน
     </v-btn></v-row>

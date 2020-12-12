@@ -26,7 +26,7 @@
               color="blue"
               x-large
               dark
-              to="/repairselect"
+              to="/selectitem"
             >
               แจ้งซ่อมครุภัณฑ์
             </v-btn>
@@ -51,7 +51,6 @@
 
 <script>
 export default {
-
 }
 </script>
 
@@ -64,7 +63,6 @@ export default {
 }
 .main{
   /* หน้าหลัก */
-
 }
 .ma-2{
   height: 120px;
@@ -73,9 +71,4 @@ export default {
   font-size: 30px;
   
 }
-
-
-
-
 </style>
-

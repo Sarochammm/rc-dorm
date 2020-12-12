@@ -23,22 +23,38 @@ const routes = [
   {
     path: '/status',
     name: 'Status',
-    component: Status
+    component: Status,
+    meta: {
+      isSecured: true,
+    },
   },
   {
     path: '/repairform',
     name: 'Repairform',
-    component: Repairform
+    component: Repairform,
+    meta: {
+      isSecured: true,
+    },
   },
   {
     path: '/choosepage',
     name: 'ChoosePage',
-    component: ChoosePage
+    component: ChoosePage,
+    meta: {
+      isSecured: true,
+    },
   },
   {
     path: '/selectitem',
     name: 'Selectitem',
-    component: Selectitem
+    component: Selectitem,
+    meta: {
+      isSecured: true,
+    },
+  },
+  {
+    path: "*",
+    redirect: "/" // page not found
   }
 ]
 
@@ -47,5 +63,18 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.isSecured)) {
+    var userid = localStorage.getItem("userid")
+    if (userid !== null) {
+      next() 
+    } else {
+      next("/");
+    }
+  } else {
+    next();
+  }
+});
 
 export default router

@@ -20,13 +20,13 @@
     <v-tab to="/choosepage"> 
       หน้าแรก
     </v-tab>
-    <v-tab to="/repairselect">
+    <v-tab to="/selectitem">
       แจ้งซ่อมครุภัณฑ์
     </v-tab>
     <v-tab to="/status">
       ติดตามสถานะ
     </v-tab>
-    <v-tab to="/">
+    <v-tab @click="onClickLogOut">
       ออกจากระบบ
     </v-tab>
   </v-tabs>
@@ -36,18 +36,13 @@
 
 <script>
   export default {
-  
+    name:"NavBar",
+    methods: {
+      onClickLogOut() {
+        this.$store.dispatch({type:"logout"})
+      }
+    },
   }
-  // @Watch("$route", { immediate: true })
-  // OnRouteChange(route: Route) 
-  // {
-  //   if (route.name == "login" || route.name == "signup") 
-  //   {
-  //     this.showHeader = false;
-  //   } else {
-  //     this.showHeader = true;
-  //   }
-  // }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
