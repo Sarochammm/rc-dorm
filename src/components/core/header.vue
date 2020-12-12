@@ -20,7 +20,7 @@
     <v-tab to="/choosepage"> 
       หน้าแรก
     </v-tab>
-    <v-tab to="/repairselect">
+    <v-tab to="/selectitem">
       แจ้งซ่อมครุภัณฑ์
     </v-tab>
     <v-tab to="/status">
