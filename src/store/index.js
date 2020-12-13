@@ -47,7 +47,6 @@ export default new Vuex.Store({
       state.dialogMsg = value
     },
     setItems(state, value){
-      console.log("Test" + value)
       state.touch = value
     }
   },
@@ -70,7 +69,6 @@ export default new Vuex.Store({
     restoreLogin({commit}) {
       commit("setLoadingState",true)
       var userid = localStorage.getItem("userid")
-      console.log(userid)
       if (userid !== null) {
         commit("setLoadingState",false)
         commit("setLoginState", true)

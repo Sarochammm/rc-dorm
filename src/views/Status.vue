@@ -27,7 +27,10 @@
       tag="v-flex"
     >
     <v-col col="3" offset="1">
-      <v-card rounded color="#EEF3FB" class="transbox">
+      <v-responsive
+          class="overflow-y-auto"
+          max-height="400">
+      <v-card rounded color="#EEF3FB" class="transbox">   
           <v-col>
                 <v-row style="margin-top:50px" justify="center">
                     <p class="headText">STATUS</p>
@@ -48,39 +51,25 @@
                     </v-tab>
                 </div>
             </v-item>
-            <v-item
-                v-slot="{ active, toggle }">
-                <div >   
-                    <v-tab 
-                    :input-value="active"
-                    @click="toggle">
+            <v-item>
+                    <v-tab >
                     ช่างซ่อมได้รับการแจ้งซ่อม
                     </v-tab>
-                </div>
             </v-item>
-            <v-item
-                v-slot="{ active, toggle }">
-                <div >   
-                    <v-tab 
-                    :input-value="active"
-                    @click="toggle">
+            <v-item>
+                    <v-tab >
                     อยู่ระหว่างการแจ้งซ่อม
                     </v-tab>
-                </div>
             </v-item>
-            <v-item
-                v-slot="{ active, toggle }">
-                <div >   
-                    <v-tab 
-                    :input-value="active"
-                    @click="toggle">
+            <v-item>
+                    <v-tab >
                     ซ่อมเสร็จแล้ว
                     </v-tab>
-                </div>
             </v-item>
         </v-tabs>
         </v-row></v-col>
       </v-card>
+      </v-responsive>
       </v-col>
     </v-item-group>
 
@@ -100,21 +89,31 @@
           :key="n"
         >
           <v-card>
-            <template>
-                <v-expansion-panels>
-                    <v-expansion-panel
-                        v-for="(item,i) in n"
-                        :key="i"
-                    >
-                        <v-expansion-panel-header>
-                             ใบแจ้งซ่อมที่ 
-                        </v-expansion-panel-header>
-                        <v-expansion-panel-content>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                </v-expansion-panels>
-            </template>
+            <v-list three-line>
+              <template v-for="(item, index) in items">
+                <v-subheader
+                  v-if="item.header"
+                  :key="item.header"
+                  v-text="item.header"
+                ></v-subheader>
+
+                <v-divider
+                  v-else-if="item.divider"
+                  :key="index"
+                  :inset="item.inset"
+                ></v-divider>
+
+                <v-list-item
+                  v-else
+                  :key="item.title"
+                >
+                    <v-list-item-content>
+                      <v-list-item-title v-html="item.title"></v-list-item-title>
+                        <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+              </template>
+            </v-list>
           </v-card>
         </v-window-item>
       </v-window>
@@ -143,7 +142,13 @@
       window: 0,
       isActive: false,
       n: 20,
-    }),
+      items: [
+        {
+          title: 'Brunch this weekend?',
+          subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
+        },
+        { divider: true, inset: true },]
+    })
   }
 </script>
 

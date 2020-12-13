@@ -36,25 +36,21 @@
           shaped
           color="#F5CDA3"
           width="250px"
-          style="padding-left: 50px; padding-right: 50px"
+          style="padding:50px;"
         >
-          <br /><v-card-content round>
-            <v-img
-              :src="require('../assets/image/cardImage/' + item.src + '.png')"
-            >
-            </v-img>
-          </v-card-content>
+          <v-img
+            :src="require('../assets/image/cardImage/' + item.src + '.png')"
+          >
+          </v-img>
           <v-card-text>
             {{ item.title }}
           </v-card-text>
-          <v-card-action>
-            <v-btn
-              x-large
-              color="success"
-              @click="addItem(item.item_id,item.title)"
-              >{{ item.title }}</v-btn
-            >            
-          </v-card-action>
+          <v-btn
+            x-large
+            color="success"
+            @click="addItem(item.item_id,item.title)"
+            >{{ item.title }}</v-btn
+          >
       </v-card>
       </div>
     </div>
@@ -117,37 +113,14 @@ export default {
     DataItemList : {
       item_id : null
     },
-    }),
+  }),
   methods: {
-    
-    
     async addItem(id,title) {
       this.count = this.count + 1;
-      console.log(id);
       this.touch.push(id);
       this.Title.push(title);
-      console.log(this.touch);
       this.$store.commit('setItems',this.touch);
-      id.preventDefault()
-
-      // var bodyFormData = new FormData();
-      // bodyFormData.append('item_id',this.DataItemList.item_id);
-  // ยืนยัน setState touch
-    //   axios({
-    //     method: 'post', 
-    //     url: 'http://127.0.0.1:5000/createRepairlistitem',
-    //     data: DataItemList,
-    //     headers: { "Content-Type": "application/json" }, 
-    //   })
-    //     .then(function(response){
-    //       console.log(response)
-    // })
-
-    },
-
-    // saveData(){
-    //   this.$store.commit('setItems',touch);
-    // }
+    }
   },
 };
 </script>
@@ -162,7 +135,6 @@ export default {
   grid-template-columns: auto auto auto;
   padding-left: 50px;
 }
-
 .grid-item {
   justify-content: center;
   display: flex;
@@ -170,4 +142,4 @@ export default {
   font-size: 36px;
   text-align: center;
 }
-</style>                 
+</style>

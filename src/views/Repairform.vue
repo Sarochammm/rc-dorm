@@ -30,7 +30,7 @@
     </v-row> 
     <v-container>
       <p align="left">เบอร์โทรติดต่อผู้แจ้งซ่อม</p>
-      <v-row style="margin-top:5px" justify="left">
+      <v-row style="margin-top:5px" justify="start">
       <v-card color="#ffff" class="box">
         <v-col
           cols="500"
@@ -108,7 +108,7 @@
       ></v-textarea>
       </v-container>
       </v-row>
-      <v-row justify="center" style="margin-top: 30px;">
+      <v-row justify="end" style="margin-top: 30px;">
     <v-btn
     x-large
     depressed
@@ -118,12 +118,29 @@
     >
       ยืนยัน
     </v-btn>
+    <v-row justify="start" style="margin-top: 30px;">
+    </v-row>
+    <v-btn
+    x-large
+    depressed
+    color="primary"
+    width=110
+    to="/Selectitem"
+    >
+      ยกเลิก
+    </v-btn>
     </v-row>
     </v-container>
     </v-card>
   </v-row>
   </v-form>
-  </div>
+  <v-overlay :value="loading">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+</div>
 </template>
 
 <script>
@@ -142,6 +159,7 @@ export default {
         timeRepair : null,
         discription : null,
       },
+      loading: false,
       valid: true,
       // phone: '',
       phonenumRules: [
@@ -150,13 +168,11 @@ export default {
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
     }),
-
     computed: {
       computedDateFormatted () {
         return this.formatDate(this.date)
       },
     },
-
     watch: {
       date (val) {
         this.dateFormatted = this.formatDate(this.date)
@@ -164,73 +180,47 @@ export default {
     },
     mounted(){
     },
-
     methods: {
      formatDate (date) {
         if (!date) return null
-
         const [year, month, day] = date.split('-')
         return `${month}/${day}/${year}`
       },
       parseDate (date) {
         if (!date) return null
-
         const [month, day, year] = date.split('/')
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       },
-      setItems(){
-        console.log(this.DataReceipt)
-        var bodyFormDataDetail = new FormData() ;
-        bodyFormDataDetail.append('user_id',localStorage.getItem('userid'));
-        bodyFormDataDetail.append('phone',this.DataReceipt.phone);
-        bodyFormDataDetail.append('repair_date',this.DataReceipt.date); 
-        bodyFormDataDetail.append('time_repair',this.DataReceipt.timeRepair);
-        bodyFormDataDetail.append('description',this.DataReceipt.discription);
+      async setItems(){
+        this.DataReceipt.date = this.dateFormatted
+        if (this.$store.getters.getItems.length > 0){
+          this.loading = true
+          var bodyFormDataDetail = new FormData() ;
+          bodyFormDataDetail.append('user_id',localStorage.getItem('userid'));
+          bodyFormDataDetail.append('phone',this.DataReceipt.phone);
+          bodyFormDataDetail.append('repair_date',this.DataReceipt.date); 
+          bodyFormDataDetail.append('time_repair',this.DataReceipt.timeRepair);
+          bodyFormDataDetail.append('description',this.DataReceipt.discription);
+          const resultRepairItem = await axios.post("https://rc-drom-backend.herokuapp.com/createRepairlist",bodyFormDataDetail)
 
-        axios ({
-          method: 'post',
-          url: 'https://rc-drom-backend.herokuapp.com/createRepairlist',
-          data: bodyFormDataDetail,
-          headers: {'Content-Type':'multipart/form-data'},
-        })
-          .then(function (response) {
-            console.log(response)
-          })
-          .catch(function (response){
-            console.log(response)
-          })
-        
-            
-
-        console.log("Let it go")
-        if(this.$store.getters.getItems.length > 1){
-          var i
-          // userID = localStorage.getItem("userid")
-          for (i=0;i<this.$store.getters.getItems.length;i++){
-            var bodyFormData = new FormData();
-            bodyFormData.append("item_id", this.$store.getters.getItems[i]);
-            this.axios
-              .post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
-              .then(res =>{
-              console.log("Here some thing",res)
-            })  
+            if (resultRepairItem !== null) {
+              var repairID = resultRepairItem.data["1.Repair ID"]
+              for (var i=0; i<this.$store.getters.getItems.length; i++){
+                var bodyFormData = new FormData();
+                bodyFormData.append("repair_id", repairID);
+                bodyFormData.append("item_id", this.$store.getters.getItems[i]);
+                const resultRepairLineItem = await axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
+              }
+              this.loading = false
+              this.$router.push({name:"ChoosePage"})
+            } else {
+              this.loading = false
+              this.$router.push({name:"ChoosePage"})
           }
+        } else {
+          this.loading = false
+          this.$router.push({name:"ChoosePage"})
         }
-        else{
-          var bodyFormData = new FormData();
-          // bodyFormData.append("repair_id", "");
-          bodyFormData.append("item_id", this.$store.getters.getItems[0]);
-          console.log(this.$store.getters.getItems)
-          this.axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
-          .then(res =>{
-            console.log(res)
-        })
-        }
-        setTimeout(()=>{
-          // router.push('/Status')
-          console.log("END")
-        },1500)
-        
       }
     },
     
@@ -247,11 +237,9 @@ div.transbox {
   background-color: #EEF3FB;
   opacity: 0.8;
 }
-
 .box{
   margin: 1px;
   width: 250px;
   height: 45px;
 }
-
 </style>
