@@ -129,7 +129,16 @@
   <v-row></v-row>
 
   </div>
-
+  <v-overlay
+    :value="true"
+  >
+  <v-card color = "white">
+    <p style="color: black">Coming soon</p>
+    <v-btn @click="onClickHome">
+      กดเพื่อ กลับไปหน้าแรก
+    </v-btn>
+  </v-card>
+  </v-overlay>
 </v-container>
 
 </template>
@@ -148,7 +157,12 @@
           subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
         },
         { divider: true, inset: true },]
-    })
+    }),
+    methods:{
+      onClickHome(){
+        this.$router.push({name:"ChoosePage"})
+      }
+    }
   }
 </script>
 
@@ -170,6 +184,4 @@ div.background{
     font-size: 30px;
 }
 .sText{
-    font-size: 20px;
-}
-</style>
+    font-size: 
