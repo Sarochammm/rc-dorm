@@ -44,7 +44,8 @@
         </div> 
      <!-- </v-row> -->
     </div>
-        <v-dialog
+    <v-dialog
+      persistent
       v-model="$store.getters.getDialogState"
       width="500"
     >
