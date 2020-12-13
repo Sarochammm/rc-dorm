@@ -1,5 +1,20 @@
 <template>
   <v-container fluid class="main" id="RepairSelect">
+    <v-snackbar
+      v-model="snackbar"
+    >
+      เพิ่มเข้ารายการเรียบร้อย
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
     <!-- Head -->
     <div class="headText">
       <h2 align="center" justify="center">กรุณาเลือกครุภัณฑ์ที่ต้องการซ่อม</h2>
@@ -11,7 +26,7 @@
       <hr />
     </div>
     <div class="cart" align="right">
-        <h3>{{ this.$store.getters.getItems }}</h3>
+        <h3>{{ Array.from(Title) }}</h3>
         <v-img
           align="right"
           contain
@@ -66,6 +81,7 @@
       ยืนยัน
     </v-btn></v-col></div>
     <!-- </v-sheet> -->
+        <!-- Dialog -->
   </v-container>
 </template>
 
@@ -105,23 +121,23 @@ export default {
         title: "เครื่องทำน้ำอุ่น",
       },
     ],
-    touch: [],
-    Title:[],
+    Title: new Set(),
     dialog: false,
     count: 0,
     count1001: 0,
     DataItemList : {
       item_id : null
     },
+    snackbar:false
   }),
   methods: {
     async addItem(id,title) {
-      this.count = this.count + 1;
-      this.touch.push(id);
-      this.Title.push(title);
-      this.$store.commit('setItems',this.touch);
+      this.$store.commit('addItems',id);
+      this.count = this.$store.getters.getItems.size;
+      this.Title.add(title);
+      this.snackbar = true
     }
-  },
+  }
 };
 </script>
 

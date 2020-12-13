@@ -44,9 +44,34 @@
         </div> 
      <!-- </v-row> -->
     </div>
+        <v-dialog
+      v-model="$store.getters.getDialogState"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          ALERT
+        </v-card-title>
 
+        <v-card-text>
+       {{ $store.getters.getDialogMsg }}
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="$store.commit('setDialogState', false)"
+          >
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </v-container>  
-  
 </template>
 
 <script>

@@ -11,7 +11,7 @@ export default new Vuex.Store({
     loadingState: false,
     dialogState: false,
     dialogMsg: "",
-    touch: []
+    touch: new Set()
   },
   getters: {
     getIsLogin (state) {
@@ -46,8 +46,8 @@ export default new Vuex.Store({
     setDialogMsg(state, value){
       state.dialogMsg = value
     },
-    setItems(state, value){
-      state.touch = value
+    addItems(state, value){
+      state.touch.add(value)
     }
   },
   actions: {
