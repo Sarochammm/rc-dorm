@@ -1,14 +1,15 @@
 <template>
   <v-app class="">
-    <Header v-if="true"/>
+    <Header v-if="$store.getters.getIsLogin"/>
     <Content/>
-    <Footer v-if="true"/>
+    <Footer v-if="$store.getters.getIsLogin"/>
   </v-app>
 </template>
 
 <script>
 import Content from './components/core/content';
 import Header from "./components/core/header";
+import Load from "./components/load";
 // import Footer from "./components/core/footer";
 
 export default {
@@ -17,12 +18,12 @@ export default {
   components: {
     Content,
     Header,
+    Load
     // Footer
   },
-
-  data: () => ({
-    //
-  }),
+  mounted () {
+    this.$store.dispatch({ type: "restoreLogin" });
+  }
 };
 </script>
 

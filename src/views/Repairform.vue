@@ -17,7 +17,6 @@
       max-width="50"
       src="../assets/shopbasket.png"
       >
-      {{count}} 
       </v-img>
       </div> 
     <v-row style="margin-top:5px" justify="center">
@@ -25,23 +24,25 @@
           <br><p>วันที่แจ้งซ่อม: {{ new Date() }}</p> 
           </v-col>
           <v-col col = "1" align="right" >
-            <br><p> จำนวนครุภัณฑ์ทั้งหมด :</p>
+            <br><p> จำนวนครุภัณฑ์ทั้งหมด : {{this.$store.getters.getItems.length}} </p>
+            {{this.$store.getters.getItems}}
           </v-col>
     </v-row> 
     <v-container>
       <p align="left">เบอร์โทรติดต่อผู้แจ้งซ่อม</p>
-      <v-row style="margin-top:5px" justify="left">
+      <v-row style="margin-top:5px" justify="start">
       <v-card color="#ffff" class="box">
         <v-col
           cols="500"
           md="100"
         >
           <v-text-field
-            v-model="phonenum"
+            
             :counter="10"
             :rules="phonenumRules"
             label="Phone Number"
             required
+            v-model="DataReceipt.phone"
           ></v-text-field>
         </v-col>
       </v-card>
@@ -56,40 +57,42 @@
       </v-row>
       <v-row align="center">
         <v-col col="1" sm="6">
-          <v-menu 
-            v-model="menu2"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            offset-y
-            max-width="290px"
-            min-width="290px"
-          >
+          <v-menu
+          ref="menu1"
+          v-model="menu1"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="290px"
+        >
           <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="computedDateFormatted"
-                label="Date (read only text field)"
-                hint="MM/DD/YYYY format"
-                persistent-hint
-                append-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="date"
-              no-title
-              @input="menu2 = false"
-            ></v-date-picker>
-            </v-menu>
+            <v-text-field
+              v-model="dateFormatted"
+              label="Date"
+              hint="MM/DD/YYYY format"
+              persistent-hint
+              prepend-icon="mdi-calendar"
+              v-bind="attrs"
+              @blur="date = parseDate(dateFormatted)"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="DataReceipt.date"
+            no-title
+            @input="menu1 = false"            
+          ></v-date-picker>
+        </v-menu>
             </v-col>
       
         <v-col col="1" sm="6">
           <v-select
-                  :items="['08:00-08:30', '08:30-09:00', '09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00',
-                          '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00']"
+                  :items="['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+                          '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30']"
                   label="Time"
                   required
+                  v-model="DataReceipt.timeRepair"
                 ></v-select>
         </v-col>
       </v-row>
@@ -101,102 +104,125 @@
         filled
         label="แจ้งรายละเอียดความเสียหาย"
         auto-grow
+        v-model="DataReceipt.discription"
       ></v-textarea>
       </v-container>
       </v-row>
-      <v-row justify="center" style="margin-top: 30px;">
+      <v-row justify="end" style="margin-top: 30px;">
     <v-btn
     x-large
     depressed
     color="primary"
-    width = 110
+    width=110
+    @click="setItems()"
     >
       ยืนยัน
-    </v-btn></v-row>
+    </v-btn>
+    <v-row justify="start" style="margin-top: 30px;">
+    </v-row>
+    <v-btn
+    x-large
+    depressed
+    color="primary"
+    width=110
+    to="/Selectitem"
+    >
+      ยกเลิก
+    </v-btn>
+    </v-row>
     </v-container>
     </v-card>
   </v-row>
   </v-form>
-  </div>
+  <v-overlay :value="loading">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+</div>
 </template>
 
 <script>
+import axios from"axios"
 export default {
-  data: () => ({
+  name: "Repairform",
+  data: vm => ({
+      date: new Date().toISOString().substr(0, 10),
+      dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+      menu1: false,
+      menu2: false,
+      DataReceipt : {
+        user_id : null,
+        phone : null,
+        date : null,
+        timeRepair : null,
+        discription : null,
+      },
+      loading: false,
       valid: true,
-      phonenum: '',
+      // phone: '',
       phonenumRules: [
         v => !!v || 'Phone Number is required',
         v => (v && v.length >= 10) || 'Name must be more than 10 characters',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
-      
     }),
-  data: vm => ({
-      date: new Date().toISOString().substr(0, 10),
-      dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
-      menu2: false,
-    }),
-
     computed: {
       computedDateFormatted () {
         return this.formatDate(this.date)
       },
     },
-
     watch: {
       date (val) {
         this.dateFormatted = this.formatDate(this.date)
       },
     },
-
+    mounted(){
+    },
     methods: {
-      formatDate (date) {
+     formatDate (date) {
         if (!date) return null
-
         const [year, month, day] = date.split('-')
         return `${month}/${day}/${year}`
       },
       parseDate (date) {
         if (!date) return null
-
         const [month, day, year] = date.split('/')
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       },
+      async setItems(){
+        this.DataReceipt.date = this.dateFormatted
+        if (this.$store.getters.getItems.length > 0){
+          this.loading = true
+          var bodyFormDataDetail = new FormData() ;
+          bodyFormDataDetail.append('user_id',localStorage.getItem('userid'));
+          bodyFormDataDetail.append('phone',this.DataReceipt.phone);
+          bodyFormDataDetail.append('repair_date',this.DataReceipt.date); 
+          bodyFormDataDetail.append('time_repair',this.DataReceipt.timeRepair);
+          bodyFormDataDetail.append('description',this.DataReceipt.discription);
+          const resultRepairItem = await axios.post("https://rc-drom-backend.herokuapp.com/createRepairlist",bodyFormDataDetail)
+
+            if (resultRepairItem !== null) {
+              var repairID = resultRepairItem.data["1.Repair ID"]
+              for (var i=0; i<this.$store.getters.getItems.length; i++){
+                var bodyFormData = new FormData();
+                bodyFormData.append("repair_id", repairID);
+                bodyFormData.append("item_id", this.$store.getters.getItems[i]);
+                const resultRepairLineItem = await axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
+              }
+              this.loading = false
+              this.$router.push({name:"ChoosePage"})
+            } else {
+              this.loading = false
+              this.$router.push({name:"ChoosePage"})
+          }
+        } else {
+          this.loading = false
+          this.$router.push({name:"ChoosePage"})
+        }
+      }
     },
-
-    DataReceipt : {
-      repairDate : null,
-      phone : null,
-      informDate : null,
-      timeRepair : null,
-      acceptDate : null,
-      discription : null,
-    },
-
-    createReceiptlist(event) {
-      event.preventDefault()
-      var bodyFormData = new FormData() ;
-      bodyFormData.append('repair_date',this.DataReceipt.repairDate); 
-      bodyFormData.append('phone',this.DataReceipt.phone);
-      bodyFormData.append('inform_date',this.DataReceipt.informDate);
-      bodyFormData.append('time_repair',this.DataReceipt.timeRepair);
-      bodyFormData.append('accept_date',this.DataReceipt.acceptDate);
-      bodyFormData.append('Description',this.DataReceipt.discription);
-
-      axios ({
-        method: 'post',
-        url: 'https://rc-drom-backend.herokuapp.com/createReceiptlist',
-        data: bodyFormData,
-        headers: {'Content-Type':'multipart/form-data'},
-      })
-        .then(function (response) {
-          console.log(response)
-        })
-        .catch(function (response){
-          console.log(response)
-        })
-    }
     
 }
 </script>
@@ -211,11 +237,9 @@ div.transbox {
   background-color: #EEF3FB;
   opacity: 0.8;
 }
-
 .box{
   margin: 1px;
   width: 250px;
   height: 45px;
 }
-
 </style>

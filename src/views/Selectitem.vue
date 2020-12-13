@@ -11,7 +11,7 @@
       <hr />
     </div>
     <div class="cart" align="right">
-        <h3>{{ Title }}</h3>
+        <h3>{{ this.$store.getters.getItems }}</h3>
         <v-img
           align="right"
           contain
@@ -21,44 +21,6 @@
         >
           <h3>{{ count }}</h3>
         </v-img>
-    <!-- <v-btn
-      color="primary"
-      dark
-      @click.stop="dialog = true"
-    >
-      cart
-    </v-btn>
-
-    <v-dialog
-      v-model="dialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="headline">
-          cart
-        </v-card-title>
-
-        <v-card-text>
-         <p>หลอดไฟ  : {{count1001}}</p>
-         <p>ฝักบัว : {{count1002}}</p>
-         <p>หน้าต่าง: {{count1003}}</p>
-         <p>ผ้าม่าน: {{count1004}}</p>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Exit
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
-
     </div>
     <!-- <v-sheet v-for="item in preset" :key="item.item_id"> -->
     <div
@@ -74,25 +36,21 @@
           shaped
           color="#F5CDA3"
           width="250px"
-          style="padding-left: 50px; padding-right: 50px"
+          style="padding:50px;"
         >
-          <br /><v-card-content round>
-            <v-img
-              :src="require('../assets/image/cardImage/' + item.src + '.png')"
-            >
-            </v-img>
-          </v-card-content>
+          <v-img
+            :src="require('../assets/image/cardImage/' + item.src + '.png')"
+          >
+          </v-img>
           <v-card-text>
             {{ item.title }}
           </v-card-text>
-          <v-card-action>
-            <v-btn
-              x-large
-              color="success"
-              @click="logItem(item.item_id,item.title)"
-              >{{ item.title }}</v-btn
-            >            
-          </v-card-action>
+          <v-btn
+            x-large
+            color="success"
+            @click="addItem(item.item_id,item.title)"
+            >{{ item.title }}</v-btn
+          >
       </v-card>
       </div>
     </div>
@@ -103,6 +61,7 @@
     depressed
     color="primary"
     width = 110
+    to="/repairform"
     >
       ยืนยัน
     </v-btn></v-col></div>
@@ -112,6 +71,7 @@
 
 <script>
 export default {
+  name : "SelectItem",
   data: () => ({
     preset: [
       {
@@ -150,27 +110,17 @@ export default {
     dialog: false,
     count: 0,
     count1001: 0,
-  }),
-  methods: {
     DataItemList : {
       item_id : null
     },
-    
-    logItem(id,title) {
+  }),
+  methods: {
+    async addItem(id,title) {
       this.count = this.count + 1;
-      console.log(id);
       this.touch.push(id);
       this.Title.push(title);
-      console.log(this.touch);
-      id.preventDefault()
-      var bodyFormData = new FormData();
-      bodyFormData.append('item_id',this.DataItemList.item_id);
-
-      axios ({
-
-      })
-    
-    },
+      this.$store.commit('setItems',this.touch);
+    }
   },
 };
 </script>
@@ -185,7 +135,6 @@ export default {
   grid-template-columns: auto auto auto;
   padding-left: 50px;
 }
-
 .grid-item {
   justify-content: center;
   display: flex;
@@ -193,4 +142,4 @@ export default {
   font-size: 36px;
   text-align: center;
 }
-</style>                 
+</style>

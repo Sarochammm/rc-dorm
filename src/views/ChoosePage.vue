@@ -13,7 +13,7 @@
             <br><br>
             <h1>ยินดีต้อนรับ</h1>
             </v-img>
-            <h2>ผู้เช่าห้อง {{ RoomNumber }}</h2>
+            <h2>ผู้เช่าห้อง</h2>
         </v-row>
       </v-col>
     </div>
@@ -51,7 +51,6 @@
 
 <script>
 export default {
-
 }
 </script>
 
@@ -64,7 +63,6 @@ export default {
 }
 .main{
   /* หน้าหลัก */
-
 }
 .ma-2{
   height: 120px;
@@ -73,9 +71,4 @@ export default {
   font-size: 30px;
   
 }
-
-
-
-
 </style>
-
