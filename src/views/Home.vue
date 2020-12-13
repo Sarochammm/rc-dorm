@@ -55,6 +55,7 @@
     </v-row>
     <!-- Dialog -->
     <v-dialog
+      persistent
       v-model="$store.getters.getDialogState"
       width="500"
     >
