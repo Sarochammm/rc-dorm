@@ -24,8 +24,8 @@
           <br><p>วันที่แจ้งซ่อม: {{ new Date() }}</p> 
           </v-col>
           <v-col col = "1" align="right" >
-            <br><p> จำนวนครุภัณฑ์ทั้งหมด : {{this.$store.getters.getItems.length}} </p>
-            {{this.$store.getters.getItems}}
+            <br><p> จำนวนครุภัณฑ์ทั้งหมด : {{ myBukectSize }} </p>
+            {{ myBukect }}
           </v-col>
     </v-row> 
     <v-container>
@@ -167,6 +167,8 @@ export default {
         v => (v && v.length >= 10) || 'Name must be more than 10 characters',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
+      myBukect: [],
+      myBukectSize: 0
     }),
     computed: {
       computedDateFormatted () {
@@ -179,6 +181,8 @@ export default {
       },
     },
     mounted(){
+        this.myBukect = Array.from(this.$store.getters.getItems)
+        this.myBukectSize = this.$store.getters.getItems.size
     },
     methods: {
      formatDate (date) {
@@ -193,7 +197,7 @@ export default {
       },
       async setItems(){
         this.DataReceipt.date = this.dateFormatted
-        if (this.$store.getters.getItems.length > 0){
+        if (this.myBukectSize > 0) {
           this.loading = true
           var bodyFormDataDetail = new FormData() ;
           bodyFormDataDetail.append('user_id',localStorage.getItem('userid'));
@@ -205,20 +209,26 @@ export default {
 
             if (resultRepairItem !== null) {
               var repairID = resultRepairItem.data["1.Repair ID"]
-              for (var i=0; i<this.$store.getters.getItems.length; i++){
+              for (var i=0; i < this.myBukectSize; i++){
                 var bodyFormData = new FormData();
                 bodyFormData.append("repair_id", repairID);
-                bodyFormData.append("item_id", this.$store.getters.getItems[i]);
+                bodyFormData.append("item_id", this.myBukect[i]);
                 const resultRepairLineItem = await axios.post("https://rc-drom-backend.herokuapp.com/createRepairlistitem",bodyFormData)
               }
               this.loading = false
+              this.$store.commit("setDialogState", true)
+              this.$store.commit("setDialogMsg", "แจ้งสำเร็จ")
               this.$router.push({name:"ChoosePage"})
             } else {
               this.loading = false
+              this.$store.commit("setDialogState", true)
+              this.$store.commit("setDialogMsg", "Error")
               this.$router.push({name:"ChoosePage"})
           }
         } else {
           this.loading = false
+          this.$store.commit("setDialogState", true)
+          this.$store.commit("setDialogMsg", "โปรดเลือกครุภัณฑ์ ที่ต้องแจ้งความเสียหาย")
           this.$router.push({name:"ChoosePage"})
         }
       }
