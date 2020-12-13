@@ -8,9 +8,9 @@
 4. นางสาวฐิติรัตน์ สุวิสุทธิ์ 			รหัสนักศึกษา 61070507236
 
 ## Our Website
-*link : https://rc-dorm.vercel.app/
-*Room ID : F1211
-*Password  : 000000
+1.*link : https://rc-dorm.vercel.app/
+2.*Room ID : F1211
+3.*Password  : 000000
 
 ## Project setup
 
