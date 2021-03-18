@@ -12,6 +12,9 @@
 2. Room ID : F1211
 3. Password  : 000000
 
+## Design figma
+https://www.figma.com/proto/7FSKGM08MZMRfMKJ8YmGAv/UI-%E0%B9%81%E0%B8%88%E0%B9%89%E0%B8%87%E0%B8%8B%E0%B9%88%E0%B8%AD%E0%B8%A1?node-id=45%3A243&scaling=scale-down
+
 ## Project setup
 
 ```
